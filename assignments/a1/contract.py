@@ -154,7 +154,7 @@ class TermContract(Contract):
         """ Create a new Contract with the <start> date, starts as inactive
         """
         Contract.__init__(self, start)
-        self.end = None
+        self._end = None
         self._free = TERM_MINS
         self._curr = start
 
@@ -208,7 +208,8 @@ class TermContract(Contract):
         # return self.bill.get_cost()
 
         self.start = None
-        if self._curr > self.end:
+        if self._curr > self._end:
+
             return self.bill.get_cost() - TERM_DEPOSIT
         else:
             return self.bill.get_cost()
@@ -274,7 +275,10 @@ class PrepaidContract(Contract):
             exists for the right month+year when the cancelation is requested.
             """
 
-            self.start = None
+            if self._end is not None:
+                raise ValueError("Contract already canceled")
+
+            self._end = datetime.datetime.now().date()
             if self.bill.get_cost() > 0:
                 return self.bill.get_cost()
             else:

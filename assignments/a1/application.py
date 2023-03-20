@@ -13,7 +13,7 @@ Copyright (c) 2022 Bogdan Simion, Diane Horton, Jacqueline Smith
 """
 import datetime
 import json
-from typing import List, Dict
+
 from call import Call
 from contract import MTMContract, PrepaidContract, TermContract
 from customer import Customer
@@ -79,7 +79,6 @@ def find_customer_by_number(number: str, customer_list: list[Customer]) \
     for customer in customer_list:
         if number in customer:
             return customer
-    return None
 
 
 def new_month(customer_list: list[Customer], month: int, year: int) -> None:
